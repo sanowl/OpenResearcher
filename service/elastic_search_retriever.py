@@ -76,7 +76,7 @@ class ElasticSearchRetriever(BaseRetriever):
 
     def api_retrieve(self, query: str):
         response = requests.post(self.elastic_search_api_url, 
-                                 json={"query": query})
+                                 json={"query": query}, timeout=60)
         nodes = pickle.loads(response.content)
         return nodes
     

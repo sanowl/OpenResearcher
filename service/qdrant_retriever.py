@@ -61,8 +61,8 @@ class QdrantRetriever(BaseRetriever):
         """
         response = requests.post(
             self.qdrant_api_url,
-            json={"query": query, "collection_name": collection_name}
-        )
+            json={"query": query, "collection_name": collection_name}, 
+        timeout=60)
         return pickle.loads(response.content)
 
     def _retrieve_parallel(self, query: str, categories: List[str], months: List[str]) -> List[RetrievalResult]:
