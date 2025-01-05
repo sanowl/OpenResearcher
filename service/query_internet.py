@@ -1,5 +1,5 @@
 from config import bing_search_end_point, bing_search_key
-import requests
+from security import safe_requests
 
 def bing_search(query):
     subscription_key = bing_search_key
@@ -8,7 +8,7 @@ def bing_search(query):
     params = { 'q': query, 'mkt': mkt }
     headers = { 'Ocp-Apim-Subscription-Key': subscription_key }
     try:
-        response = requests.get(endpoint, headers=headers, params=params)
+        response = safe_requests.get(endpoint, headers=headers, params=params)
         response.raise_for_status()
         pages = response.json()['webPages']['value']
         result_list = []
