@@ -5,8 +5,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Tuple
 import uvicorn
-import random
 from config import sparse_doc_embed_model_path, sparse_query_embed_model_path
+import secrets
+
 class ModelInstance:
     def __init__(self, doc_model_name: str, query_model_name: str, device: str):
         self.doc_tokenizer = AutoTokenizer.from_pretrained(doc_model_name)
@@ -54,7 +55,7 @@ class AsyncEmbeddingEngine:
             self.instances.append(ModelInstance(doc_model_name, query_model_name, device))
 
     async def get_sparse_vectors(self, texts: List[str], is_doc: bool) -> Tuple[List[List[int]], List[List[float]]]:
-        instance = random.choice(self.instances)
+        instance = secrets.choice(self.instances)
         return await instance.compute_sparse_vectors(texts, is_doc)
 
 class TextRequest(BaseModel):
